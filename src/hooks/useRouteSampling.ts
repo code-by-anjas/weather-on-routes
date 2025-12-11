@@ -16,9 +16,6 @@ export const useRouteSampling = (
 
     if (path.length === 0) return results;
 
-    // Hitung total jarak (untuk info, bukan interval)
-    const totalDistance = geometry.spherical.computeLength(path);
-
     // Interval = dari context user (default misalnya 3000 ms, user bisa ubah)
     const samplingInterval = Math.max(distance, 1000);
     // guardrail minimum 1 km biar ga terlalu rapat
