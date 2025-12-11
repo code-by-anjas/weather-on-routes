@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Weather on Route
 
-## Getting Started
+Realtime Weather Insights Along Your Travel Route
 
-First, run the development server:
+Weather on Route adalah aplikasi web yang menampilkan informasi cuaca di sepanjang rute perjalanan secara otomatis menggunakan Google Maps Platform API.  
+User hanya perlu menentukan origin dan destination, lalu aplikasi akan menghitung titik sampling di sepanjang rute dan menampilkan data cuaca untuk setiap titik tersebut.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Dibangun menggunakan Next.js 16.0.7 dengan Typescript dan PNPM.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Route Visualization
 
-## Learn More
+- Menampilkan rute perjalanan dari Google Directions API.
+- Polyline decoding otomatis menggunakan Google Maps Geometry Library.
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Dynamic Weather Sampling
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Aplikasi memiliki dua mode utama untuk menentukan titik sampling:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Sampling by Distance**
 
-## Deploy on Vercel
+- Contoh: setiap 3 km mengambil data cuaca terbaru.
+- Interval dapat diatur melalui UI slider.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Sampling by Time**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Contoh: setiap 30 menit perjalanan mengambil cuaca pada titik estimasi waktu tersebut.
+- Menggunakan total duration dari Directions API.
+
+### 3. Configurable Sampling Card
+
+- User hanya dapat memilih satu mode sampling (distance/time) pada satu waktu.
+- Masing-masing mode memiliki slider interval yang independen.
+- Global state ditangani oleh Sampling Context.
+
+### 4. Weather API Integration
+
+- Mengambil data cuaca untuk setiap titik sampling.
+- Format data dibersihkan menjadi struktur CleanWeatherData.
+
+### 5. Modular Architecture
+
+- Hooks terpisah untuk dua tipe sampling:
+  - useRouteSampling (distance-based)
+  - useRouteTimeSampling (time-based)
+- Context global untuk state sampling:
+  - mode
+  - distance interval
+  - time interval
+
+---
+
+## Tech Stack
+
+| Area            | Teknologi                    |
+| --------------- | ---------------------------- |
+| Framework       | Next.js 16.0.7               |
+| Bahasa          | Typescript                   |
+| Styling         | TailwindCSS + shadcn/ui      |
+| Maps SDK        | Google Maps JavaScript API   |
+| Directions      | Google Directions API        |
+| Utilities       | Google Maps Geometry Library |
+| State           | React Context                |
+| Package Manager | PNPM                         |
+
+---
