@@ -1,8 +1,18 @@
 import { configs } from "@/lib/config";
+import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
     const { origin, destination } = (await req.json()) as {
       origin: google.maps.LatLngLiteral;
       destination: google.maps.LatLngLiteral;

@@ -6,7 +6,7 @@ import { QueryProvider } from "@/lib/query-provider";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { configs } from "../../lib/config";
 
-export default function Layout({
+export default function LayoutGoogleMaps({
   children,
 }: Readonly<{
   children: React.ReactNode;
