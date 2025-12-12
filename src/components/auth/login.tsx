@@ -1,24 +1,33 @@
 "use client";
 
 import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 const LoginCard = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const login = async () => {
+    setLoading(true);
+
     const { data, error } = await supabase.auth.signInAnonymously();
 
     if (error) {
       console.error("Anonymous login failed:", error);
+      setLoading(false);
       return;
     }
 
-    console.log("Anonymous session:", data.user);
+    // Redirect ke landing page
+    router.push("/");
   };
 
   return (
     <Card className='w-full max-w-sm mx-auto border shadow-sm rounded-xl'>
-      <CardHeader className=''>
+      <CardHeader>
         <CardTitle className='text-lg font-semibold text-center'>
           Access Demo
         </CardTitle>
@@ -32,10 +41,10 @@ const LoginCard = () => {
 
         <Button
           onClick={login}
-          className='w-full font-medium py-2 cursor-pointer'
-          size='default'
+          disabled={loading}
+          className='w-full font-medium py-2'
         >
-          Access Demo
+          {loading ? "Entering..." : "Access Demo"}
         </Button>
       </CardContent>
     </Card>
